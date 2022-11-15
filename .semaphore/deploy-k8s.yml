@@ -10,7 +10,9 @@ blocks:
       secrets:
         - name: do-k8s
         - name: dockerhub
-      env_vars: []
+      env_vars:
+        - name: KUBECONFIG
+          value: /home/semaphore/.kube/dok8s.yaml
       jobs:
         - name: Deploy
           commands:
@@ -18,7 +20,7 @@ blocks:
             - kubectl get nodes
             - kubectl get pods
             - envsubst < deployment.yml | tee _deploy.yml
-            - kubectl apply -f _deploy.yml
+            - kubectl apply -f deployment.yml
   - name: Tag latest release
     task:
       secrets:
